@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>福利鉴 · 登录</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #0e0e10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      gap: 12px;
+      padding: 24px;
+    }
+    .logo { color: #f43f8a; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+    .sub { color: rgba(255,255,255,0.3); font-size: 14px; margin-bottom: 8px; }
+    .notice {
+      background: rgba(244,63,138,0.08);
+      border: 1px solid rgba(244,63,138,0.25);
+      border-radius: 14px;
+      padding: 16px 20px;
+      max-width: 340px;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .notice-title {
+      color: #f43f8a;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .notice-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 7px;
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .notice-row:last-child { margin-bottom: 0; }
+    .notice-icon { flex-shrink: 0; font-size: 14px; }
+    .notice-text { color: rgba(255,255,255,0.55); }
+    .notice-text strong { color: rgba(255,255,255,0.85); }
+    .warn-box {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 10px;
+      padding: 10px 14px;
+      max-width: 340px;
+      width: 100%;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: rgba(239,68,68,0.8);
+      text-align: center;
+      line-height: 1.6;
+    }
+    .back { color: rgba(255,255,255,0.2); font-size: 13px; margin-top: 16px; text-decoration: none; }
+    .back:hover { color: rgba(255,255,255,0.5); }
+  </style>
+</head>
+<body>
+  <div class="logo">福利鉴</div>
+  <div class="sub">使用 Telegram 账号验证身份</div>
+
+  <div class="notice">
+    <div class="notice-title">⭐ 高级会员专属登录</div>
+    <div class="notice-row">
+      <span class="notice-icon">🔍</span>
+      <span class="notice-text"><strong>免费用户</strong>：每天可搜索 <strong>5 次</strong>，可浏览所有已缓存页面</span>
+    </div>
+    <div class="notice-row">
+      <span class="notice-icon">✅</span>
+      <span class="notice-text"><strong>高级会员</strong>：每天可检索 <strong>100 次</strong> 新账号 + 参与评分与评论</span>
+    </div>
+    <div class="notice-row">
+      <span class="notice-icon">🔒</span>
+      <span class="notice-text">任何 Telegram 用户均可登录 · 频道会员享⭐会员权重</span>
+    </div>
+  </div>
+
+  <div class="warn-box" style="background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.2);color:rgba(96,165,250,0.8);">
+    💡 登录后可获得用户身份标签 · 加入<strong>高级会员频道</strong>可升级为⭐会员
+  </div>
+
+  <script async src="https://telegram.org/js/telegram-widget.js?22"
+    data-telegram-login="fljinfobot"
+    data-size="large"
+    data-radius="8"
+    data-auth-url="https://flj.info/api/auth/telegram/callback"
+    data-request-access="write">
+  </script>
+  <div style="text-align:center;margin-top:12px;">
+    <button onclick="switchAccount()" style="background:none;border:none;color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer;text-decoration:underline;">
+      用其他 TG 账号登录
+    </button>
+  </div>
+
+  <script>
+    function switchAccount() {
+      localStorage.removeItem('flj_tg_token');
+      localStorage.removeItem('flj_tg_user');
+      // 清除 TG widget 的 cookie/session，强制重新选择账号
+      document.cookie.split(';').forEach(function(c) {
+        document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+      });
+      location.reload();
+    }
+  </script>
+
+  <a href="/" class="back">← 返回首页</a>
+</body>
+</html>
