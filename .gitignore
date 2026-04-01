@@ -2,5 +2,6 @@
 .env
 node_modules/
 .next/
+public/uploads/
 *.dump
 *.log
