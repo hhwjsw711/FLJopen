@@ -11,7 +11,11 @@ export async function GET(req: NextRequest) {
   if (!username) return NextResponse.json([], { status: 400 })
   try {
     const res = await pool.query(
-      `SELECT * FROM comments WHERE LOWER(twitter_username) = LOWER($1) ORDER BY created_at DESC`,
+      `SELECT id, twitter_username, user_id, user_name, user_avatar, content,
+              is_expose, reporter_ip, user_tier, tg_user_id, expose_category,
+              upvotes, downvotes, is_collapsed, created_at, updated_at,
+              CASE WHEN images_status = 'approved' THEN image_urls ELSE '{}'::text[] END AS image_urls
+       FROM comments WHERE LOWER(twitter_username) = LOWER($1) ORDER BY created_at DESC`,
       [username]
     )
     return NextResponse.json(res.rows)

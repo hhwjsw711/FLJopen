@@ -470,11 +470,12 @@ export async function GET(req: NextRequest) {
        media_urls, account_language,
        is_fushi, is_offline, has_threshold, active_cities,
        negative_tags, positive_tags, content_tags,
+       complaint_examples, positive_examples,
        user_eval, user_eval_i18n,
        cached_lang, cached_at, updated_at,
        gender, is_welfare, last_searched_at
      ) VALUES (
-       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, NOW(), NOW(), $19, $20, NOW()
+       $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, NOW(), NOW(), $21, $22, NOW()
      )
      ON CONFLICT (twitter_username) DO UPDATE SET
        display_name = EXCLUDED.display_name, bio = EXCLUDED.bio,
@@ -502,6 +503,8 @@ export async function GET(req: NextRequest) {
       JSON.stringify(finalMerged.complaint_types || []),
       JSON.stringify(finalMerged.positive_types || []),
       (finalMerged as any).content_tags || [],
+      JSON.stringify(finalMerged.complaint_examples || []),
+      JSON.stringify(finalMerged.positive_examples || []),
       i18nDetails.zh,
       JSON.stringify(i18nDetails),
       lang,

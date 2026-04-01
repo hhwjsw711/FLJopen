@@ -583,7 +583,7 @@ export default function VerifyPage() {
           <button onClick={() => router.push('/')}
             className="flex items-center gap-1 text-sm flex-shrink-0 px-2 py-1.5 rounded-lg transition-all"
             style={{ color: c.textFaint, background: c.cardBg, border: `1px solid ${c.cardBorder}` }}>
-            ← <span className="hidden sm:inline">{t.back}</span>
+            <span className="hidden sm:inline">{t.back}</span>
           </button>
 
           {/* 账号名（截断） */}
@@ -858,6 +858,15 @@ export default function VerifyPage() {
                   ? <p className="text-[11px] pl-9 italic" style={{ color: c.textFaint }}>此爆料已被多人标记为不实，点击查看</p>
                   : <p className="text-[13px] leading-relaxed pl-9 whitespace-pre-wrap" style={{ color: cm.is_expose ? c.textPrimary : c.textMuted }}>{cm.content}</p>
                 }
+                {cm.image_urls?.length > 0 && (
+                  <div className="flex gap-2 mt-2 pl-9 flex-wrap">
+                    {cm.image_urls.map((url: string, i: number) => (
+                      <a key={i} href={url} target="_blank" rel="noopener noreferrer">
+                        <img src={url} alt="" className="w-20 h-20 rounded-lg object-cover" style={{ border: `1px solid ${c.cardBorder}` }} />
+                      </a>
+                    ))}
+                  </div>
+                )}
                 {cm.is_expose && (
                   <div className="mt-2 pl-9">
                   <div className="flex items-center gap-3">

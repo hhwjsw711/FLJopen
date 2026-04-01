@@ -61,9 +61,10 @@ export async function GET(req: NextRequest) {
       INSERT INTO girls (
         twitter_username, display_name, bio, avatar_url, score, score_detail,
         media_urls, account_language, is_fushi, is_offline, has_threshold, active_cities,
-        negative_tags, positive_tags, user_eval, user_eval_i18n, cached_lang,
+        negative_tags, positive_tags, complaint_examples, positive_examples,
+        user_eval, user_eval_i18n, cached_lang,
         cached_at, updated_at, gender, is_welfare, last_searched_at
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,NOW(),NOW(),$18,$19,NOW())
+      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,NOW(),NOW(),$20,$21,NOW())
       ON CONFLICT (twitter_username) DO UPDATE SET
         display_name=EXCLUDED.display_name, bio=EXCLUDED.bio, avatar_url=EXCLUDED.avatar_url,
         score=EXCLUDED.score, score_detail=EXCLUDED.score_detail,
@@ -71,6 +72,7 @@ export async function GET(req: NextRequest) {
         is_fushi=EXCLUDED.is_fushi, is_offline=EXCLUDED.is_offline,
         has_threshold=EXCLUDED.has_threshold, active_cities=EXCLUDED.active_cities,
         negative_tags=EXCLUDED.negative_tags, positive_tags=EXCLUDED.positive_tags,
+        complaint_examples=EXCLUDED.complaint_examples, positive_examples=EXCLUDED.positive_examples,
         user_eval=EXCLUDED.user_eval, user_eval_i18n=EXCLUDED.user_eval_i18n,
         cached_lang=EXCLUDED.cached_lang, cached_at=NOW(), updated_at=NOW(),
         gender=EXCLUDED.gender, is_welfare=EXCLUDED.is_welfare, last_searched_at=NOW()
@@ -83,6 +85,8 @@ export async function GET(req: NextRequest) {
         JSON.stringify((finalMerged.active_cities || []).filter((c: string) => c && c.length <= 5)),
         JSON.stringify(finalMerged.complaint_types || []),
         JSON.stringify(finalMerged.positive_types || []),
+        JSON.stringify(finalMerged.complaint_examples || []),
+        JSON.stringify(finalMerged.positive_examples || []),
         zhText, JSON.stringify({ zh: zhText }), 'zh',
         finalMerged.gender || 'unknown', finalMerged.is_welfare !== false
       ]
